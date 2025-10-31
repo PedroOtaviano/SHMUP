@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=3 uid="uid://duixfyjt5p00o"]
+
+[ext_resource type="Script" uid="uid://cymheiidvchk1" path="res://scripts/enemy_1.gd" id="1_a1412"]
+[ext_resource type="Texture2D" uid="uid://dotk1jjaw3s4f" path="res://assets/enemies/spritesheet_enemy_1.png" id="1_tcmaw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a1412"]
+size = Vector2(42, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ejytf"]
+atlas = ExtResource("1_tcmaw")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dq62l"]
+atlas = ExtResource("1_tcmaw")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d3026"]
+atlas = ExtResource("1_tcmaw")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l21ug"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ejytf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dq62l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d3026")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="Enemy1" type="Area2D"]
+script = ExtResource("1_a1412")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_a1412")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_l21ug")
+frame_progress = 0.89289945
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
