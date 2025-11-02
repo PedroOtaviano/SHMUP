@@ -2,7 +2,8 @@ extends Area2D
 
 @export var speed: int = 300
 @export var screen_size: Vector2
-@export var max_health: int = 3
+@export var max_health: int = 10
+
 var health: int
 
 @export var bullet_scene: PackedScene = preload("res://scenes/Bullet.tscn")

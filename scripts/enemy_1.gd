@@ -1,7 +1,7 @@
 extends Area2D
 
 @export var speed: int = 100
-@export var max_health: int = 5
+@export var max_health: int = 3
 var health: int
 
 @export var bullet_scene: PackedScene
@@ -51,7 +51,7 @@ func _physics_process(delta):
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player_bullet"):
-		take_damage(1)
+		take_damage(area.power)
 		area.queue_free()
 
 func take_damage(amount: int) -> void:

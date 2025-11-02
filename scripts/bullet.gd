@@ -1,7 +1,7 @@
 extends Area2D
 
 @export var speed: int = 600
-@export var damage: int = 1
+@export var power: int = 1
 
 func _ready():
 	add_to_group("player_bullet")

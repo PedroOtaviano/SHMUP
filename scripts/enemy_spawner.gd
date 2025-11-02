@@ -9,7 +9,8 @@ var waves = [
 	{"type": "line", "count": 6, "y": -100, "spacing": 60, "delay": 3.0},
 	{"type": "v", "count": 7, "y": -100, "spacing": 50, "delay": 3.0},
 	{"type": "diagonal", "count": 5, "y": -100, "spacing": 60, "delay": 3.0},
-	{"type": "random", "count": 8, "interval": 0.3, "delay": 4.0}
+	{"type": "random", "count": 8, "interval": 0.3, "delay": 4.0},
+	{"type": "boss", "delay": 5.0}
 ]
 
 var current_wave := 0
@@ -50,6 +51,9 @@ func spawn_wave(wave: Dictionary) -> void:
 
 		"diagonal":
 			spawn_diagonal(wave["count"], base_x, wave["y"], wave.get("spacing", 50))
+		"boss":
+			spawn_boss()
+
 
 	await get_tree().create_timer(wave.get("delay", 2.0)).timeout
 	current_wave += 1
@@ -107,3 +111,15 @@ func spawn_diagonal(count: int, start_x: float, start_y: float, spacing: float =
 		var enemy = enemy_scene.instantiate()
 		enemy.position = Vector2(clamped_x + i * spacing, start_y + i * spacing)
 		add_child(enemy)
+		
+func spawn_boss():
+	if enemy_scene == null:
+		push_warning("Boss scene não atribuída no editor!")
+		return
+
+	var boss_scene = load("res://scenes/boss.tscn")
+	var boss = boss_scene.instantiate()
+
+	var viewport_size = get_viewport_rect().size
+	boss.position = Vector2(viewport_size.x / 2, -200)  # entra de cima
+	add_child(boss)
