@@ -2,12 +2,15 @@ extends Area2D
 
 @export var speed: int = 300
 @export var screen_size: Vector2
+@export var max_health: int = 3
+var health: int
 
 @export var bullet_scene: PackedScene = preload("res://scenes/Bullet.tscn")
 
 func _ready():
+	health = max_health
 	screen_size = get_viewport_rect().size
-	
+
 func _process(delta):
 	if Input.is_action_just_pressed("shoot"):
 		shoot()
@@ -34,3 +37,18 @@ func shoot():
 	var bullet = bullet_scene.instantiate()
 	bullet.position = position + Vector2(0, -20) # nasce um pouco acima da nave
 	get_parent().add_child(bullet)
+
+func _on_area_entered(area):
+	if area.is_in_group("enemy_bullet"):
+		take_damage(area.damage)
+		area.queue_free()
+
+func take_damage(amount: int):
+	health -= amount
+	print("Player levou dano! Vida restante: %d" % health)
+	if health <= 0:
+		die()
+
+func die():
+	print("Player morreu!")
+	queue_free()

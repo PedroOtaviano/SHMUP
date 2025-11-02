@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://c8mov76plb1ly"]
 
 [ext_resource type="Script" uid="uid://d0qadd3i5rka8" path="res://scripts/bullet.gd" id="1_l5glv"]
-[ext_resource type="Shader" uid="uid://ius8fjeu7mji" path="res://rastro.gdshader" id="1_y25gk"]
+[ext_resource type="Shader" uid="uid://ius8fjeu7mji" path="res://shaders/rastro.gdshader" id="1_y25gk"]
 [ext_resource type="Texture2D" uid="uid://bul3xwuwgbfxe" path="res://assets/effects/projectile_2.png" id="2_l5glv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_eoqba"]
