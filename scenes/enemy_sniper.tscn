@@ -1,0 +1,137 @@
+[gd_scene load_steps=21 format=3 uid="uid://cr5pni4btapgp"]
+
+[ext_resource type="Script" uid="uid://cu1g76c3cxw4c" path="res://scripts/enemy_sniper.gd" id="1_rwlyv"]
+[ext_resource type="Texture2D" uid="uid://ddfk7ledw3s5s" path="res://assets/enemies/bug_3.png" id="2_1f7p7"]
+[ext_resource type="PackedScene" uid="uid://ckew7filua1hc" path="res://scenes/damage_popup.tscn" id="2_4d8dn"]
+[ext_resource type="Texture2D" uid="uid://p8ulkcs8eaje" path="res://assets/effects/explosion-spritesheet.png" id="3_1f7p7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4d8dn"]
+atlas = ExtResource("2_1f7p7")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5uf6s"]
+atlas = ExtResource("2_1f7p7")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5pqyk"]
+atlas = ExtResource("2_1f7p7")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bbrvb"]
+atlas = ExtResource("2_1f7p7")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r5uqq"]
+atlas = ExtResource("2_1f7p7")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_883p1"]
+atlas = ExtResource("2_1f7p7")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_78hcv"]
+atlas = ExtResource("3_1f7p7")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kdxk7"]
+atlas = ExtResource("3_1f7p7")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5yyro"]
+atlas = ExtResource("3_1f7p7")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wqsn0"]
+atlas = ExtResource("3_1f7p7")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e2lw0"]
+atlas = ExtResource("3_1f7p7")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4mawc"]
+atlas = ExtResource("3_1f7p7")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w0gko"]
+atlas = ExtResource("3_1f7p7")
+region = Rect2(288, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sgt5o"]
+atlas = ExtResource("3_1f7p7")
+region = Rect2(336, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_78hcv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4d8dn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5uf6s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5pqyk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bbrvb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r5uqq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_883p1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_78hcv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kdxk7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5yyro")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wqsn0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e2lw0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4mawc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w0gko")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sgt5o")
+}],
+"loop": false,
+"name": &"explosion",
+"speed": 20.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rwlyv"]
+size = Vector2(41.5, 20)
+
+[node name="Enemy_Sniper" type="Area2D"]
+script = ExtResource("1_rwlyv")
+damage_popup_scene = ExtResource("2_4d8dn")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_78hcv")
+animation = &"explosion"
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.25, -1)
+shape = SubResource("RectangleShape2D_rwlyv")
+
+[node name="Line2D" type="Line2D" parent="."]
+position = Vector2(0, -11)
+points = PackedVector2Array(0, 0)

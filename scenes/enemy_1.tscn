@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://duixfyjt5p00o"]
+[gd_scene load_steps=19 format=3 uid="uid://duixfyjt5p00o"]
 
 [ext_resource type="Script" uid="uid://cymheiidvchk1" path="res://scripts/enemy_1.gd" id="1_a1412"]
 [ext_resource type="Texture2D" uid="uid://dotk1jjaw3s4f" path="res://assets/enemies/spritesheet_enemy_1.png" id="1_tcmaw"]
 [ext_resource type="PackedScene" uid="uid://b3rsaldcja42b" path="res://scenes/enemy_bullet.tscn" id="2_ejytf"]
+[ext_resource type="PackedScene" uid="uid://ckew7filua1hc" path="res://scenes/damage_popup.tscn" id="3_dq62l"]
+[ext_resource type="Texture2D" uid="uid://p8ulkcs8eaje" path="res://assets/effects/explosion-spritesheet.png" id="5_d3026"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a1412"]
 size = Vector2(42, 20)
@@ -19,6 +21,38 @@ region = Rect2(48, 0, 48, 48)
 atlas = ExtResource("1_tcmaw")
 region = Rect2(96, 0, 48, 48)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_l21ug"]
+atlas = ExtResource("5_d3026")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6nrqq"]
+atlas = ExtResource("5_d3026")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oweuj"]
+atlas = ExtResource("5_d3026")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hcr21"]
+atlas = ExtResource("5_d3026")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x5oq2"]
+atlas = ExtResource("5_d3026")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m468s"]
+atlas = ExtResource("5_d3026")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jvuks"]
+atlas = ExtResource("5_d3026")
+region = Rect2(288, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tcrox"]
+atlas = ExtResource("5_d3026")
+region = Rect2(336, 0, 48, 48)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_l21ug"]
 animations = [{
 "frames": [{
@@ -34,17 +68,50 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l21ug")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6nrqq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oweuj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hcr21")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x5oq2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m468s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jvuks")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tcrox")
+}],
+"loop": false,
+"name": &"explosion",
+"speed": 20.0
 }]
 
 [node name="Enemy1" type="Area2D"]
 script = ExtResource("1_a1412")
 bullet_scene = ExtResource("2_ejytf")
+damage_popup_scene = ExtResource("3_dq62l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_a1412")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_l21ug")
-frame_progress = 0.89289945
+animation = &"explosion"
+autoplay = "default"
+frame = 7
+frame_progress = 1.0
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

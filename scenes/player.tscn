@@ -1,7 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bp4xacf0gvtp6"]
+[gd_scene load_steps=11 format=3 uid="uid://bp4xacf0gvtp6"]
 
 [ext_resource type="Texture2D" uid="uid://dh80po5gxvl0u" path="res://assets/player/spritesheet_player.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://b57jr0xpvapm" path="res://scripts/player.gd" id="1_g2els"]
+[ext_resource type="Shader" uid="uid://6lxms4tuauft" path="res://shaders/playerhitbox.gdshader" id="3_dqkch"]
+[ext_resource type="Texture2D" uid="uid://bmvsghtos6d4a" path="res://assets/player/hitbox.png" id="4_qlg0r"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g2els"]
 atlas = ExtResource("1_3vyb7")
@@ -33,19 +35,32 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tuyoq"]
-radius = 5.3851647
+radius = 4.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tuyoq"]
+shader = ExtResource("3_dqkch")
+shader_parameter/hitbox_color = Color(5.7716884e-06, 0.7069039, 0.16314234, 1)
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/pulse_speed = 4.0
+shader_parameter/glow_strength = 0.5
+shader_parameter/outline_thickness = 0.3
 
 [node name="Player" type="Area2D" groups=["player"]]
 position = Vector2(0, -1)
 script = ExtResource("1_g2els")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." groups=["player"]]
 sprite_frames = SubResource("SpriteFrames_qlg0r")
 animation = &"idle"
 autoplay = "idle"
 frame_progress = 0.5377733
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_tuyoq")
+
+[node name="Hitbox2" type="Sprite2D" parent="Hitbox"]
+modulate = Color(1.224127, 1.224127, 1.224127, 0.8117647)
+material = SubResource("ShaderMaterial_tuyoq")
+texture = ExtResource("4_qlg0r")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://gfdg8e3gb7b6"]
+
+[ext_resource type="Script" uid="uid://bdeep5fl0vw2r" path="res://scripts/laser_impact.gd" id="1_ohmry"]
+[ext_resource type="Texture2D" uid="uid://0ig2a1jt7we6" path="res://assets/effects/Particletexture.png" id="2_lrbby"]
+[ext_resource type="Texture2D" uid="uid://bmvsghtos6d4a" path="res://assets/player/hitbox.png" id="3_30wxj"]
+
+[sub_resource type="Gradient" id="Gradient_6cl55"]
+offsets = PackedFloat32Array(0, 0.2, 0.4, 1)
+colors = PackedColorArray(1.353256, 1.353256, 1.353256, 1, 1.353256, 1.2282239, 0, 1, 1.1996135, 0, 0, 1, 1, 0, 0, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8acfi"]
+gradient = SubResource("Gradient_6cl55")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_37uem"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_max = 80.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.049999997
+scale_max = 0.099999994
+color_ramp = SubResource("GradientTexture1D_8acfi")
+
+[node name="Laser_Impact" type="Node2D"]
+script = ExtResource("1_ohmry")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 10
+texture = ExtResource("2_lrbby")
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_37uem")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(1, 0.2, 0.101960786, 1)
+energy = 2.0
+texture = ExtResource("3_30wxj")
+texture_scale = 2.0

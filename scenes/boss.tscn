@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://djwuaeo5m3yp4"]
+[gd_scene load_steps=15 format=3 uid="uid://djwuaeo5m3yp4"]
 
 [ext_resource type="Script" uid="uid://b7ccmmkd33rto" path="res://scripts/boss.gd" id="1_neq0i"]
 [ext_resource type="Texture2D" uid="uid://bepddkvvccd85" path="res://assets/boss/boss-01-spritesheet.png" id="2_jncid"]
+[ext_resource type="PackedScene" uid="uid://ckew7filua1hc" path="res://scenes/damage_popup.tscn" id="2_qnbj4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qnbj4"]
 radius = 110.00455
@@ -70,8 +71,22 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_neq0i"]
+particle_flag_disable_z = true
+angle_min = 1.0728835e-05
+angle_max = 360.00003
+spread = 180.0
+initial_velocity_min = 100.0
+initial_velocity_max = 150.0
+angular_velocity_min = -1.6093254e-05
+angular_velocity_max = 89.999985
+gravity = Vector3(0, 0, 0)
+scale_max = 2.0
+color = Color(1, 0.2784314, 0.23921569, 1)
+
 [node name="Boss" type="Area2D"]
 script = ExtResource("1_neq0i")
+damage_popup_scene = ExtResource("2_qnbj4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_qnbj4")
@@ -79,5 +94,15 @@ shape = SubResource("CircleShape2D_qnbj4")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_8eiau")
 frame_progress = 0.3537362
+
+[node name="shoot_point_left" type="Marker2D" parent="."]
+
+[node name="shoot_point_right" type="Marker2D" parent="."]
+
+[node name="PhaseParticles2D" type="GPUParticles2D" parent="."]
+amount = 80
+preprocess = 0.2
+explosiveness = 0.2
+process_material = SubResource("ParticleProcessMaterial_neq0i")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
