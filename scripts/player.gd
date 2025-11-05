@@ -1,69 +1,60 @@
 extends Area2D
-
-var slow_multiplier = 0.4  # 40% da velocidade normal
+class_name Player
 
 # -------------------------
-# Atributos base
+# Referências externas
 # -------------------------
-@export var base_speed: float = 300.0
-@export var base_health: int = 10
-@export var base_attack: float = 1.0
-
-@export var screen_size: Vector2
+var stats = preload("uid://b1wjfxnmpc7ih")
 @export var bullet_scene: PackedScene = preload("res://scenes/Bullet.tscn")
-
-# -------------------------
-# Player Hud
-# -------------------------
+@export var fire_rate: float = 0.15         # tempo entre disparos
+@export var screen_size: Vector2
 
 @onready var hud = get_tree().get_first_node_in_group("player_hud")
+@onready var animated_sprite_2d = $AnimatedSprite2D
+@onready var shield_sprite = $AnimatedSprite2D/Escudo
+
 signal stats_changed
 
 # -------------------------
-# Progressão
+# Variáveis internas
 # -------------------------
-var level: int = 1
-var max_level: int = 30
-var xp: int = 0
-var xp_to_next: int = 100
-
-# Status atuais (calculados dinamicamente)
 var health: int
-var max_health: int
-var speed: float
-var attack: float
+var shield: float
+var shield_regen_timer: float = 0.0
 
-# -------------------------
-# Controle de tiro automático
-# -------------------------
-@export var fire_rate: float = 0.15   # tempo entre disparos (em segundos)
 var shoot_cooldown: float = 0.0
-
-# -------------------------
-# Equipamentos
-# -------------------------
-var current_ship: String = "Nave Básica"
-var current_modules: Array = []
+@export var invuln_time: float = 1.5   # tempo de invulnerabilidade em segundos
+var is_invulnerable: bool = false
 
 # -------------------------
 # Inicialização
 # -------------------------
 func _ready():
-	recalc_stats()
-	health = max_health
+	health = stats.max_health
+	shield = stats.max_shield
 	screen_size = get_viewport_rect().size
+	update_shield_visual()
+	emit_signal("stats_changed")
+
 # -------------------------
 # Loop de jogo
 # -------------------------
 func _process(delta):
-	# Atualiza cooldown
 	if shoot_cooldown > 0:
 		shoot_cooldown -= delta
 
-	# Se o botão estiver pressionado e o cooldown zerado, dispara
 	if Input.is_action_pressed("shoot") and shoot_cooldown <= 0.0:
 		shoot()
 		shoot_cooldown = fire_rate
+
+	# regeneração do escudo
+	if shield < stats.max_shield:
+		if shield_regen_timer > 0:
+			shield_regen_timer -= delta
+		else:
+			shield += stats.shield_regen_rate * delta
+			shield = clamp(shield, 0, stats.max_shield)
+			update_shield_visual()
 
 func _physics_process(delta):
 	var direction = Vector2.ZERO
@@ -80,17 +71,14 @@ func _physics_process(delta):
 	if direction != Vector2.ZERO:
 		direction = direction.normalized()
 
-	# Velocidade base
-	var current_speed = speed
+	var current_speed = stats.speed
 
-	# Se estiver segurando a tecla de precisão, reduz a velocidade
 	if Input.is_action_pressed("slow"):
-		current_speed *= 0.4   # 40% da velocidade normal (ajuste como quiser)
+		current_speed *= 0.4   # modo precisão
 
-	# Aplica movimento
 	position += direction * current_speed * delta
 
-	# Limita a nave dentro da tela
+	# Limita dentro da tela
 	position.x = clamp(position.x, 0, screen_size.x)
 	position.y = clamp(position.y, 0, screen_size.y)
 
@@ -100,74 +88,77 @@ func _physics_process(delta):
 func shoot():
 	var bullet = bullet_scene.instantiate()
 	bullet.position = position + Vector2(0, -20)
-	
-	# passa o ataque atual do player para a bala
-	bullet.power = attack  
-	
+	bullet.power = stats.attack
 	get_parent().add_child(bullet)
 
-
 # -------------------------
-# Progressão de XP e Nível
+# Progressão
 # -------------------------
 func add_xp(amount: int):
-	xp += amount
-	if xp >= xp_to_next and level < max_level:
-		level_up()
+	if stats.add_xp(amount):
+		# se subiu de nível
+		health = stats.max_health
+		shield = stats.max_shield
+		print("Level UP! Agora nível %d" % stats.level)
 	emit_signal("stats_changed")
-
-func level_up():
-	level += 1
-	xp -= xp_to_next
-	xp_to_next = int(xp_to_next * 1.2) # curva de XP crescente
-	recalc_stats()
-	print("Level UP! Agora nível %d" % level)
-	emit_signal("stats_changed")
-
-func recalc_stats():
-	# Fórmulas de progressão suave
-	max_health = int(base_health * (1.0 + 0.04 * (level - 1))) # +80% até Lv30
-	speed = base_speed * (1.0 + 0.015 * (level - 1))           # +30% até Lv30
-	attack = base_attack * (1.0 + 0.025 * (level - 1))         # +50% até Lv30
-
-# -------------------------
-# Equipamentos com requisito de nível
-# -------------------------
-func can_equip(equipment: Dictionary) -> bool:
-	# equipment = { "name": "Laser Avançado", "min_level": 10 }
-	return level >= equipment.get("min_level", 1)
-
-func equip_ship(ship_data: Dictionary):
-	if can_equip(ship_data):
-		current_ship = ship_data["name"]
-		print("Nave equipada: %s" % current_ship)
-	else:
-		print("Nível insuficiente para equipar %s (requer Lv%d)" %
-			[ship_data["name"], ship_data["min_level"]])
-
-func equip_module(module_data: Dictionary):
-	if can_equip(module_data):
-		current_modules.append(module_data["name"])
-		print("Módulo equipado: %s" % module_data["name"])
-	else:
-		print("Nível insuficiente para equipar %s (requer Lv%d)" %
-			[module_data["name"], module_data["min_level"]])
 
 # -------------------------
 # Dano e morte
 # -------------------------
-func _on_area_entered(area):
+func _on_area_entered(area: Area2D):
 	if area.is_in_group("enemy_bullet"):
 		take_damage(area.damage)
 		area.queue_free()
 
 func take_damage(amount: int):
-	health -= amount
-	print("Player levou dano! Vida restante: %d" % health)
-	if health <= 0:
-		die()
+	if is_invulnerable:
+		return
+
+	if shield > 0:
+		shield -= amount
+		if shield < 0:
+			health += shield
+			shield = 0
+		shield_regen_timer = stats.shield_regen_delay
+		if hud: hud.flash_shield_bar()
+	else:
+		health -= amount
+		if hud: hud.flash_hp_bar()
+		if health <= 0:
+			die()
+		else:
+			start_invulnerability()
+
+	update_shield_visual()
 	emit_signal("stats_changed")
+
+	update_shield_visual()
+	emit_signal("stats_changed")
+
+func start_invulnerability():
+	is_invulnerable = true
+
+	# efeito visual: piscar sprite do player
+	var tween = create_tween()
+	tween.set_loops(int(invuln_time / 0.2))
+	tween.tween_property(animated_sprite_2d, "modulate:a", 0.2, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(animated_sprite_2d, "modulate:a", 1.0, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+	await get_tree().create_timer(invuln_time).timeout
+	is_invulnerable = false
+	animated_sprite_2d.modulate.a = 1.0
 
 func die():
 	print("Player morreu!")
 	queue_free()
+
+# -------------------------
+# Escudo visual
+# -------------------------
+func update_shield_visual():
+	shield_sprite.visible = shield > 0
+
+func flash_shield():
+	if not shield_sprite.visible:
+		return
+	shield_sprite.play("hit")  # animação de impacto do escudo
