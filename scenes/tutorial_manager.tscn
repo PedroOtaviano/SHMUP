@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=3 uid="uid://cdqs6e3yjhphc"]
+
+[ext_resource type="Script" uid="uid://cgdamhi4myol7" path="res://scripts/TutorialManager.gd" id="1_o3net"]
+[ext_resource type="Texture2D" uid="uid://0hb65bw7wbrm" path="res://assets/ui/border_blue.png" id="2_ubejk"]
+[ext_resource type="FontFile" uid="uid://dojl3j10uypqf" path="res://fonts/montreal/Montreal-Regular.ttf" id="3_xnhi8"]
+[ext_resource type="FontFile" uid="uid://b37pgk04q04ls" path="res://fonts/montreal/Montreal-Bold.ttf" id="4_ghxh3"]
+
+[node name="Control" type="CanvasLayer"]
+script = ExtResource("1_o3net")
+
+[node name="TipBox" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BorderBlue" type="TextureRect" parent="TipBox"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -134.80722
+offset_top = -54.0
+offset_right = 134.80722
+offset_bottom = 54.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ubejk")
+expand_mode = 3
+
+[node name="TipLabel" type="RichTextLabel" parent="TipBox"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -36.0
+offset_right = 125.0
+offset_bottom = 36.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/normal_font = ExtResource("3_xnhi8")
+theme_override_fonts/bold_font = ExtResource("4_ghxh3")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true

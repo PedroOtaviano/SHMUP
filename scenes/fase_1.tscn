@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://bdua8ack8cu61"]
+
+[ext_resource type="Script" uid="uid://bemg7xmgh27gf" path="res://scripts/fase_1.gd" id="1_ktbmo"]
+[ext_resource type="PackedScene" uid="uid://bp4xacf0gvtp6" path="res://scenes/player.tscn" id="2_fh0dc"]
+[ext_resource type="PackedScene" uid="uid://b4cjoh0k53w32" path="res://scenes/boss_health_bar.tscn" id="3_6cnnc"]
+[ext_resource type="PackedScene" uid="uid://2xq3to66iu5" path="res://scenes/player_hud.tscn" id="4_o5tko"]
+[ext_resource type="PackedScene" uid="uid://di4240tgrjytk" path="res://scenes/enemy_spawner.tscn" id="5_m44rk"]
+
+[node name="Fase1" type="Node2D"]
+position = Vector2(0, -1)
+script = ExtResource("1_ktbmo")
+
+[node name="Player" parent="." instance=ExtResource("2_fh0dc")]
+position = Vector2(232, 585)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="BossHealthBar" parent="UI" instance=ExtResource("3_6cnnc")]
+offset_top = -1.0
+offset_bottom = -1.0
+
+[node name="PlayerHud" parent="UI" instance=ExtResource("4_o5tko")]
+offset_top = -1.0
+offset_bottom = -1.0
+
+[node name="EnemySpawner" parent="." instance=ExtResource("5_m44rk")]
