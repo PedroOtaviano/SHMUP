@@ -61,8 +61,22 @@ func _physics_process(delta):
 
 	if Input.is_action_pressed("right"):
 		direction.x += 1
-	if Input.is_action_pressed("left"):
+		if animated_sprite_2d.animation != "right_turn":
+			animated_sprite_2d.play("right_turn")
+		animated_sprite_2d.flip_h = false
+
+	elif Input.is_action_pressed("left"):
 		direction.x -= 1
+		if animated_sprite_2d.animation != "left_turn":
+			animated_sprite_2d.play("left_turn")
+		animated_sprite_2d.flip_h = true
+
+	else:
+		# só toca idle se não houver input horizontal
+		if animated_sprite_2d.animation != "idle":
+			animated_sprite_2d.play("idle")
+
+	# movimento vertical
 	if Input.is_action_pressed("up"):
 		direction.y -= 1
 	if Input.is_action_pressed("down"):
@@ -72,9 +86,8 @@ func _physics_process(delta):
 		direction = direction.normalized()
 
 	var current_speed = stats.speed
-
 	if Input.is_action_pressed("slow"):
-		current_speed *= 0.4   # modo precisão
+		current_speed *= 0.4
 
 	position += direction * current_speed * delta
 

@@ -29,18 +29,21 @@ var waves = [
 	{"type": "boss", "delay": 5.0}
 ]
 
-var current_wave := 0
+# -----------------------
+# Funções públicas
+# -----------------------
 
-func _ready():
-	start_next_wave()
-
-func start_next_wave():
-	if current_wave >= waves.size():
-		print("Todas as ondas terminaram!")
+# Dispara uma wave específica (usado pelos triggers)
+func spawn_wave_by_index(index: int) -> void:
+	if index < 0 or index >= waves.size():
+		push_warning("Wave inválida: " + str(index))
 		return
+	var wave = waves[index]
+	await spawn_wave(wave)
 
-	var wave = waves[current_wave]
-	spawn_wave(wave)
+# -----------------------
+# Funções internas
+# -----------------------
 
 func spawn_wave(wave: Dictionary) -> void:
 	var viewport_size = get_viewport_rect().size
@@ -71,9 +74,8 @@ func spawn_wave(wave: Dictionary) -> void:
 		"boss":
 			spawn_boss()
 
+	# delay antes da próxima ação (se quiser encadear waves)
 	await get_tree().create_timer(wave.get("delay", 2.0)).timeout
-	current_wave += 1
-	start_next_wave()
 
 # -----------------------
 # Funções de spawn
