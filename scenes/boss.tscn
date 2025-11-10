@@ -106,3 +106,4 @@ explosiveness = 0.2
 process_material = SubResource("ParticleProcessMaterial_neq0i")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,7 +1,10 @@
 extends Enemy
+class_name EnemyContactShooter
 
 @export var bullet_scene: PackedScene
 @export var fire_rate: float = 1.5
+@export var contact_damage: int = 1   # dano ao encostar no player
+
 @onready var player = get_tree().get_first_node_in_group("player")
 @onready var animated_sprite_2d = $AnimatedSprite2D
 
@@ -39,3 +42,11 @@ func shoot():
 	bullet.position = global_position
 	var dir = (player.global_position - global_position).normalized()
 	bullet.direction = dir
+
+# -------------------------
+# Contato com Player
+# -------------------------
+func _on_body_entered(body: Node) -> void:
+	if body.is_in_group("player"):
+		body.take_damage(contact_damage)
+		explode()   # inimigo morre ao encostar

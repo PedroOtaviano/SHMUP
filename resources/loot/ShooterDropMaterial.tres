@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Drop" load_steps=3 format=3 uid="uid://hlljirjvsj8y"]
+
+[ext_resource type="Script" uid="uid://sxtmkutwqvhf" path="res://resources/loot/drop.gd" id="1_a6yib"]
+[ext_resource type="PackedScene" uid="uid://clu12nhu8e0u8" path="res://scenes/material_fragment.tscn" id="1_txcsp"]
+
+[resource]
+script = ExtResource("1_a6yib")
+scene = ExtResource("1_txcsp")
+chance = 0.2
+metadata/_custom_type_script = "uid://sxtmkutwqvhf"

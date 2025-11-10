@@ -4,6 +4,7 @@ class_name Enemy
 @export var speed: int = 100
 @export var max_health: int = 2
 @export var xp_reward: int = 2
+@export var loot_table: LootTable   # <- loot table exportada
 
 var health: int
 @onready var anim_sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -79,9 +80,19 @@ func _on_explosion_finished():
 	die()
 
 func die() -> void:
+	# XP para o player
 	var player = get_tree().get_first_node_in_group("player")
 	if player and player.has_method("add_xp"):
 		player.add_xp(xp_reward)
+
+	# Loot
+	if loot_table:
+		var loots = loot_table.get_loot()
+		for scene in loots:
+			var item = scene.instantiate()
+			get_parent().add_child(item)
+			item.global_position = global_position
+
 	emit_signal("died", self)
 	queue_free()
 	

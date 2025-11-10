@@ -133,3 +133,4 @@ sprite_frames = SubResource("SpriteFrames_nfsb0")
 autoplay = "default"
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

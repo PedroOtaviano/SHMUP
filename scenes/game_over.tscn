@@ -1,0 +1,82 @@
+[gd_scene load_steps=5 format=3 uid="uid://basnd7u30uvjc"]
+
+[ext_resource type="Script" uid="uid://d0r0ltw1vtjgm" path="res://scripts/game_over.gd" id="1_wqhvx"]
+[ext_resource type="FontFile" path="res://fonts/connection_ii/ConnectionII.tres" id="2_tbwuq"]
+[ext_resource type="FontFile" uid="uid://h3ocways5lwl" path="res://fonts/connection_ii/ConnectionII.otf" id="3_tbwuq"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_racf3"]
+font = ExtResource("2_tbwuq")
+font_size = 26
+
+[node name="GameOver" type="Control"]
+process_mode = 3
+z_index = 15
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+script = ExtResource("1_wqhvx")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 147.0
+offset_top = -117.0
+offset_right = -147.0
+offset_bottom = 117.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 51.0
+offset_top = 29.0
+offset_right = -49.0
+offset_bottom = 70.0
+grow_horizontal = 2
+text = "Mission failed!"
+label_settings = SubResource("LabelSettings_racf3")
+horizontal_alignment = 1
+
+[node name="Restart" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -89.0
+offset_top = -16.0
+offset_right = 89.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_tbwuq")
+text = "Restart"
+
+[node name="Back to Mission Select" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -86.0
+offset_top = -85.0
+offset_right = 86.0
+offset_bottom = -53.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_tbwuq")
+text = "Back to Mission Select"
+
+[connection signal="pressed" from="Panel/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="Panel/Back to Mission Select" to="." method="_on_back_to_mission_select_pressed"]

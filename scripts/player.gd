@@ -1,4 +1,4 @@
-extends Area2D
+extends CharacterBody2D
 class_name Player
 
 # -------------------------
@@ -6,12 +6,15 @@ class_name Player
 # -------------------------
 var stats = preload("uid://b1wjfxnmpc7ih")
 @export var bullet_scene: PackedScene = preload("res://scenes/Bullet.tscn")
-@export var fire_rate: float = 0.15         # tempo entre disparos
+@export var fire_rate: float = 0.15
 @export var screen_size: Vector2
 
 @onready var hud = get_tree().get_first_node_in_group("player_hud")
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var shield_sprite = $AnimatedSprite2D/Escudo
+@onready var exhaust = $AnimatedSprite2D/Exhaust
+@onready var exhaust_2 = $AnimatedSprite2D/Exhaust2
+@onready var hitbox = $Hitbox   # pode ser um Area2D filho para triggers
 
 signal stats_changed
 
@@ -23,8 +26,14 @@ var shield: float
 var shield_regen_timer: float = 0.0
 
 var shoot_cooldown: float = 0.0
-@export var invuln_time: float = 1.5   # tempo de invulnerabilidade em segundos
+@export var invuln_time: float = 1.5
 var is_invulnerable: bool = false
+
+# -------------------------
+# Inventário
+# -------------------------
+var materials: Dictionary = {}   # Ex: {"Metal Fragment": 3}
+var upgrades: Array[String] = [] # Ex: ["Spread Shot", "Laser Beam"]
 
 # -------------------------
 # Inicialização
@@ -64,19 +73,15 @@ func _physics_process(delta):
 		if animated_sprite_2d.animation != "right_turn":
 			animated_sprite_2d.play("right_turn")
 		animated_sprite_2d.flip_h = false
-
 	elif Input.is_action_pressed("left"):
 		direction.x -= 1
 		if animated_sprite_2d.animation != "left_turn":
 			animated_sprite_2d.play("left_turn")
 		animated_sprite_2d.flip_h = true
-
 	else:
-		# só toca idle se não houver input horizontal
 		if animated_sprite_2d.animation != "idle":
 			animated_sprite_2d.play("idle")
 
-	# movimento vertical
 	if Input.is_action_pressed("up"):
 		direction.y -= 1
 	if Input.is_action_pressed("down"):
@@ -89,7 +94,8 @@ func _physics_process(delta):
 	if Input.is_action_pressed("slow"):
 		current_speed *= 0.4
 
-	position += direction * current_speed * delta
+	velocity = direction * current_speed
+	move_and_slide()
 
 	# Limita dentro da tela
 	position.x = clamp(position.x, 0, screen_size.x)
@@ -109,20 +115,31 @@ func shoot():
 # -------------------------
 func add_xp(amount: int):
 	if stats.add_xp(amount):
-		# se subiu de nível
 		health = stats.max_health
 		shield = stats.max_shield
 		print("Level UP! Agora nível %d" % stats.level)
 	emit_signal("stats_changed")
 
 # -------------------------
+# Inventário
+# -------------------------
+func add_item(item_name: String):
+	materials[item_name] = materials.get(item_name, 0) + 1
+	print("Coletou material:", item_name, "| Total:", materials[item_name])
+
+func add_upgrade(upgrade_name: String):
+	upgrades.append(upgrade_name)
+	print("Coletou upgrade:", upgrade_name, "| Upgrades:", upgrades)
+
+func get_material_count(item_name: String) -> int:
+	return materials.get(item_name, 0)
+
+func has_upgrade(upgrade_name: String) -> bool:
+	return upgrade_name in upgrades
+
+# -------------------------
 # Dano e morte
 # -------------------------
-func _on_area_entered(area: Area2D):
-	if area.is_in_group("enemy_bullet"):
-		take_damage(area.damage)
-		area.queue_free()
-
 func take_damage(amount: int):
 	if is_invulnerable:
 		return
@@ -145,17 +162,12 @@ func take_damage(amount: int):
 	update_shield_visual()
 	emit_signal("stats_changed")
 
-	update_shield_visual()
-	emit_signal("stats_changed")
-
 func start_invulnerability():
 	is_invulnerable = true
-
-	# efeito visual: piscar sprite do player
 	var tween = create_tween()
 	tween.set_loops(int(invuln_time / 0.2))
-	tween.tween_property(animated_sprite_2d, "modulate:a", 0.2, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(animated_sprite_2d, "modulate:a", 1.0, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(animated_sprite_2d, "modulate:a", 0.2, 0.1)
+	tween.tween_property(animated_sprite_2d, "modulate:a", 1.0, 0.1)
 
 	await get_tree().create_timer(invuln_time).timeout
 	is_invulnerable = false
@@ -163,7 +175,20 @@ func start_invulnerability():
 
 func die():
 	print("Player morreu!")
-	queue_free()
+	animated_sprite_2d.play("death")
+	shield_sprite.visible = false
+	exhaust.visible = false
+	exhaust_2.visible = false
+	hitbox.visible = false
+	hitbox.disabled = true
+	set_physics_process(false)
+
+	await get_tree().create_timer(1.5).timeout
+
+	var game_over_scene = preload("res://scenes/game_over.tscn")
+	var game_over_ui = game_over_scene.instantiate()
+	var ui_node = get_tree().current_scene.get_node("UI")
+	ui_node.add_child(game_over_ui)
 
 # -------------------------
 # Escudo visual
@@ -174,4 +199,4 @@ func update_shield_visual():
 func flash_shield():
 	if not shield_sprite.visible:
 		return
-	shield_sprite.play("hit")  # animação de impacto do escudo
+	shield_sprite.play("hit")

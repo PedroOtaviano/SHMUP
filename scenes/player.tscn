@@ -1,11 +1,60 @@
-[gd_scene load_steps=31 format=3 uid="uid://bp4xacf0gvtp6"]
+[gd_scene load_steps=44 format=3 uid="uid://bp4xacf0gvtp6"]
 
 [ext_resource type="Script" uid="uid://b57jr0xpvapm" path="res://scripts/player.gd" id="1_g2els"]
+[ext_resource type="Texture2D" uid="uid://csao366mqekt8" path="res://assets/effects/explosion-01-sheet.png" id="2_fjrip"]
 [ext_resource type="Texture2D" uid="uid://c4t0c4k6u04db" path="res://assets/player/Player_Spritesheet.png" id="2_qlg0r"]
 [ext_resource type="Shader" uid="uid://6lxms4tuauft" path="res://shaders/playerhitbox.gdshader" id="3_dqkch"]
 [ext_resource type="Texture2D" uid="uid://vhvt37tskxfv" path="res://assets/Shield/shield.png" id="3_qlg0r"]
 [ext_resource type="Texture2D" uid="uid://bx44i86ilah3v" path="res://assets/player/Exhaust_Spritesheet.png" id="3_tuyoq"]
 [ext_resource type="Texture2D" uid="uid://bmvsghtos6d4a" path="res://assets/player/hitbox.png" id="4_qlg0r"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ke2ow"]
+atlas = ExtResource("2_fjrip")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ujl30"]
+atlas = ExtResource("2_fjrip")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_31cv2"]
+atlas = ExtResource("2_fjrip")
+region = Rect2(200, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pf23h"]
+atlas = ExtResource("2_fjrip")
+region = Rect2(300, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dt7fs"]
+atlas = ExtResource("2_fjrip")
+region = Rect2(0, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wqfne"]
+atlas = ExtResource("2_fjrip")
+region = Rect2(100, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wnwbv"]
+atlas = ExtResource("2_fjrip")
+region = Rect2(200, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gl8cc"]
+atlas = ExtResource("2_fjrip")
+region = Rect2(300, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_487ah"]
+atlas = ExtResource("2_fjrip")
+region = Rect2(0, 200, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_md1ol"]
+atlas = ExtResource("2_fjrip")
+region = Rect2(100, 200, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bj30b"]
+atlas = ExtResource("2_fjrip")
+region = Rect2(200, 200, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jc3p3"]
+atlas = ExtResource("2_fjrip")
+region = Rect2(300, 200, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3v2ag"]
 atlas = ExtResource("2_qlg0r")
@@ -37,6 +86,47 @@ region = Rect2(384, 0, 128, 128)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_qlg0r"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ke2ow")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ujl30")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_31cv2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pf23h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dt7fs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wqfne")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wnwbv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gl8cc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_487ah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_md1ol")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bj30b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jc3p3")
+}],
+"loop": true,
+"name": &"death",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3v2ag")
@@ -185,8 +275,10 @@ shader_parameter/pulse_speed = 4.0
 shader_parameter/glow_strength = 0.5
 shader_parameter/outline_thickness = 0.3
 
-[node name="Player" type="Area2D" groups=["player"]]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 position = Vector2(0, -1)
+collision_mask = 3
+motion_mode = 1
 script = ExtResource("1_g2els")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." groups=["player"]]
@@ -223,5 +315,3 @@ shape = SubResource("CircleShape2D_tuyoq")
 modulate = Color(1.224127, 1.224127, 1.224127, 0.8117647)
 material = SubResource("ShaderMaterial_tuyoq")
 texture = ExtResource("4_qlg0r")
-
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]

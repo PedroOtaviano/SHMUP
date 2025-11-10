@@ -14,6 +14,7 @@ var health: int
 @onready var shoot_point_left = $shoot_point_left
 @onready var shoot_point_right = $shoot_point_right
 @onready var boss_health_bar = get_tree().get_first_node_in_group("boss_hud")
+@onready var contact_damage : int = 10
 
 # Partículas para transição de fase
 @onready var phase_particles: GPUParticles2D = $PhaseParticles2D
@@ -196,3 +197,8 @@ func _on_area_entered(area):
 	if area.is_in_group("player_bullet"):
 		take_damage(area.power)
 		area.queue_free()
+
+func _on_body_entered(body):
+	if body.is_in_group("player"):
+		# O player tem o método take_damage
+		body.take_damage(contact_damage)  # valor de dano que o Boss causa ao encostar

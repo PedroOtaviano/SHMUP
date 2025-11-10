@@ -100,8 +100,6 @@ size = Vector2(41, 23)
 
 [node name="EnemyKamikaze" type="Area2D"]
 script = ExtResource("1_rkxys")
-kamikaze_speed = null
-speed = null
 max_health = 1
 xp_reward = 1
 damage_popup_scene = ExtResource("2_yj4ja")
@@ -116,3 +114,4 @@ position = Vector2(0.5, 1.5)
 shape = SubResource("RectangleShape2D_eru8n")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
