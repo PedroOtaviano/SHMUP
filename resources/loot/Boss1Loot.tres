@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="LootTable" load_steps=10 format=3 uid="uid://5f7wlm07hahu"]
+
+[ext_resource type="Script" uid="uid://sxtmkutwqvhf" path="res://resources/loot/drop.gd" id="1_rgtya"]
+[ext_resource type="PackedScene" uid="uid://clu12nhu8e0u8" path="res://scenes/Loot/metal_fragment.tscn" id="2_rfvh4"]
+[ext_resource type="Script" uid="uid://ndm5flaope34" path="res://resources/loot/LootTable.gd" id="2_vlfe5"]
+[ext_resource type="Resource" uid="uid://brxafpcntjruk" path="res://resources/loot/RareCrystal.tres" id="3_2td5i"]
+[ext_resource type="Resource" uid="uid://rdjjej0uy0uc" path="res://resources/loot/SUMK1.tres" id="4_kwu3m"]
+
+[sub_resource type="Resource" id="Resource_kwu3m"]
+script = ExtResource("1_rgtya")
+scene = ExtResource("2_rfvh4")
+chance = 0.2
+guaranteed = true
+metadata/_custom_type_script = "uid://sxtmkutwqvhf"
+
+[sub_resource type="Resource" id="Resource_6pdia"]
+script = ExtResource("1_rgtya")
+scene = ExtResource("2_rfvh4")
+chance = 0.2
+guaranteed = true
+metadata/_custom_type_script = "uid://sxtmkutwqvhf"
+
+[sub_resource type="Resource" id="Resource_0qlcp"]
+script = ExtResource("1_rgtya")
+scene = ExtResource("2_rfvh4")
+chance = 0.2
+guaranteed = true
+metadata/_custom_type_script = "uid://sxtmkutwqvhf"
+
+[sub_resource type="Resource" id="Resource_fhppn"]
+script = ExtResource("1_rgtya")
+scene = ExtResource("2_rfvh4")
+chance = 0.2
+guaranteed = true
+metadata/_custom_type_script = "uid://sxtmkutwqvhf"
+
+[resource]
+script = ExtResource("2_vlfe5")
+drops = Array[ExtResource("1_rgtya")]([SubResource("Resource_kwu3m"), SubResource("Resource_6pdia"), SubResource("Resource_0qlcp"), SubResource("Resource_fhppn"), ExtResource("3_2td5i"), ExtResource("4_kwu3m")])
+metadata/_custom_type_script = "uid://ndm5flaope34"

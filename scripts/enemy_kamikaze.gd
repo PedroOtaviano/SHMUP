@@ -26,6 +26,9 @@ func _on_area_entered(area: Area2D) -> void:
 
 # Detecta contato direto com Player (CharacterBody2D)
 func _on_body_entered(body: Node) -> void:
+	
 	if body.is_in_group("player"):
-		body.take_damage(contact_damage)
+		var health_component = body.get_node_or_null("HealthComponent")
+		if health_component:
+			health_component.take_damage(contact_damage)
 		explode()   # kamikaze morre ao encostar

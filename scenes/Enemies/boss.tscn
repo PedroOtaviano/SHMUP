@@ -1,8 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://djwuaeo5m3yp4"]
+[gd_scene load_steps=16 format=3 uid="uid://djwuaeo5m3yp4"]
 
 [ext_resource type="Script" uid="uid://b7ccmmkd33rto" path="res://scripts/boss.gd" id="1_neq0i"]
 [ext_resource type="Texture2D" uid="uid://bepddkvvccd85" path="res://assets/boss/boss-01-spritesheet.png" id="2_jncid"]
-[ext_resource type="PackedScene" uid="uid://ckew7filua1hc" path="res://scenes/damage_popup.tscn" id="2_qnbj4"]
+[ext_resource type="PackedScene" uid="uid://ckew7filua1hc" path="res://scenes/Effects/damage_popup.tscn" id="2_qnbj4"]
+[ext_resource type="Resource" uid="uid://5f7wlm07hahu" path="res://resources/loot/Boss1Loot.tres" id="2_vrktt"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qnbj4"]
 radius = 110.00455
@@ -86,6 +87,7 @@ color = Color(1, 0.2784314, 0.23921569, 1)
 
 [node name="Boss" type="Area2D"]
 script = ExtResource("1_neq0i")
+loot_table = ExtResource("2_vrktt")
 damage_popup_scene = ExtResource("2_qnbj4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

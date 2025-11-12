@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var upgrade_name: String = "Spread Shot"
+@export var upgrade_name: String = "Shoot Upgrade"
 @export var move_speed: float = 200.0
 
 var target: Node = null
@@ -25,7 +25,7 @@ func _on_body_entered(body):
 func show_pickup_text(text: String):
 	var label = Label.new()
 	label.text = "+ " + text
-	label.modulate = Color(0.843, 0.216, 0.0, 1.0) # vermelho
+	label.modulate = Color(0.843, 0.643, 0.0, 1.0) # vermelho
 	label.position = global_position
 	get_tree().current_scene.add_child(label)
 

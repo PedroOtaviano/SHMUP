@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://dlr12gy2addmx"]
+
+[ext_resource type="Script" uid="uid://drt7jsb0vjjf6" path="res://scripts/material_fragment.gd" id="1_ssnmd"]
+[ext_resource type="Texture2D" uid="uid://bvmrqqs175wnn" path="res://assets/loot/PowerupBlue.png" id="2_dhbst"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qqipk"]
+
+[node name="BlueCrystal" type="Area2D"]
+script = ExtResource("1_ssnmd")
+item_name = "Blue Crystal"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_dhbst")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_qqipk")

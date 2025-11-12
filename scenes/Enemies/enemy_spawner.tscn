@@ -1,0 +1,14 @@
+[gd_scene load_steps=6 format=3 uid="uid://di4240tgrjytk"]
+
+[ext_resource type="Script" uid="uid://tfavpiol6po5" path="res://scripts/enemy_spawner.gd" id="1_devoi"]
+[ext_resource type="PackedScene" uid="uid://duixfyjt5p00o" path="res://scenes/Enemies/enemy_1.tscn" id="2_xl0gr"]
+[ext_resource type="PackedScene" uid="uid://b04f5r77eifsf" path="res://scenes/Enemies/enemy_kamikaze.tscn" id="3_31irv"]
+[ext_resource type="PackedScene" uid="uid://cr5pni4btapgp" path="res://scenes/Enemies/enemy_sniper.tscn" id="4_txvhj"]
+[ext_resource type="PackedScene" uid="uid://b3u1fsqb7ncl2" path="res://scenes/Enemies/enemy_tank.tscn" id="5_sukom"]
+
+[node name="EnemySpawner" type="Node2D"]
+script = ExtResource("1_devoi")
+enemy_1_scene = ExtResource("2_xl0gr")
+enemy_kamikaze_scene = ExtResource("3_31irv")
+enemy_sniper_scene = ExtResource("4_txvhj")
+enemy_tank_scene = ExtResource("5_sukom")

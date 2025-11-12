@@ -5,7 +5,9 @@ extends Control
 @onready var xp_bar = $HBoxContainer/VBoxContainer/XPBar
 @onready var shield_bar = $HBoxContainer/VBoxContainer/ShieldBar
 
-var player
+var player: Node
+var health_component: HealthComponent
+var xp_component: XpComponent
 
 # Cores base
 var hp_color = Color(1, 0, 0)
@@ -14,43 +16,52 @@ var xp_color = Color(1, 0.9, 0.2)
 
 func _ready():
 	player = get_tree().get_first_node_in_group("player")
-	if player:
-		_set_progress_bar_color(hp_bar, hp_color)
-		_set_progress_bar_color(shield_bar, shield_color)
-		_set_progress_bar_color(xp_bar, xp_color)
+	if not player:
+		return
 
-		update_all()
-		player.connect("stats_changed", Callable(self, "update_all"))
+	health_component = player.get_node_or_null("HealthComponent")
+	xp_component = player.get_node_or_null("XPComponent")
+
+	_set_progress_bar_color(hp_bar, hp_color)
+	_set_progress_bar_color(shield_bar, shield_color)
+	_set_progress_bar_color(xp_bar, xp_color)
+
+	update_all()
+
+	if health_component:
+		health_component.stats_changed.connect(update_all)
+		health_component.took_damage.connect(_on_player_took_damage)
+		health_component.died.connect(_on_player_died)
+
+	if xp_component:
+		xp_component.stats_changed.connect(update_all)
 
 func _process(delta):
-	if player:
-		# Atualiza escudo em tempo real (regeneração)
-		shield_bar.value = player.shield
-
-		# Se o escudo está regenerando, aplica efeito de brilho
-		if player.shield < player.stats.max_shield and player.shield > 0:
+	if health_component:
+		shield_bar.value = health_component.current_shield
+		if health_component.current_shield < health_component.max_shield and health_component.current_shield > 0:
 			var pulse = 0.5 + 0.5 * sin(Time.get_ticks_msec() / 200.0)
 			_set_progress_bar_color(shield_bar, shield_color.lerp(Color.WHITE, pulse * 0.3))
 		else:
 			_set_progress_bar_color(shield_bar, shield_color)
 
 func update_all():
-	if not player:
+	if not health_component:
 		return
-	var s = player.stats
 
 	# Level e XP
-	lv_label.text = "LV" + str(s.level)
-	xp_bar.max_value = s.xp_to_next
-	xp_bar.value = s.xp
+	if xp_component:
+		lv_label.text = "LV" + str(xp_component.level)
+		xp_bar.max_value = xp_component.xp_to_next
+		xp_bar.value = xp_component.xp
 
 	# Vida
-	hp_bar.max_value = s.max_health
-	hp_bar.value = player.health
+	hp_bar.max_value = health_component.max_health
+	hp_bar.value = health_component.current_health
 
 	# Escudo
-	shield_bar.max_value = s.max_shield
-	shield_bar.value = player.shield
+	shield_bar.max_value = health_component.max_shield
+	shield_bar.value = health_component.current_shield
 
 # -------------------------
 # Funções auxiliares
@@ -66,7 +77,6 @@ func _set_progress_bar_color(bar: ProgressBar, fill_color: Color):
 
 # -------------------------
 # Feedback de dano
-# Chamado pelo Player quando sofre dano
 # -------------------------
 func flash_hp_bar():
 	_flash_bar(hp_bar, hp_color, Color.WHITE)
@@ -79,3 +89,14 @@ func _flash_bar(bar: ProgressBar, base_color: Color, flash_color: Color):
 	tween.tween_callback(Callable(self, "_set_progress_bar_color").bind(bar, flash_color))
 	tween.tween_interval(0.1)
 	tween.tween_callback(Callable(self, "_set_progress_bar_color").bind(bar, base_color))
+
+# -------------------------
+# Reações a sinais
+# -------------------------
+func _on_player_took_damage(amount: int):
+	flash_hp_bar()
+	flash_shield_bar()
+
+func _on_player_died():
+	print("HUD detectou morte do Player")
+	# Futura tela de game over

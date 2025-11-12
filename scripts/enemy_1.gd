@@ -48,5 +48,8 @@ func shoot():
 # -------------------------
 func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
-		body.take_damage(contact_damage)
+		# acessa o componente de vida do Player
+		var health_component = body.get_node_or_null("HealthComponent")
+		if health_component:
+			health_component.take_damage(contact_damage)
 		explode()   # inimigo morre ao encostar

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Drop" load_steps=3 format=3 uid="uid://rdjjej0uy0uc"]
+
+[ext_resource type="Script" uid="uid://sxtmkutwqvhf" path="res://resources/loot/drop.gd" id="1_6du4v"]
+[ext_resource type="PackedScene" uid="uid://dn350mj16h3i7" path="res://scenes/Loot/support_unit_boss1.tscn" id="1_hmwdt"]
+
+[resource]
+script = ExtResource("1_6du4v")
+scene = ExtResource("1_hmwdt")
+guaranteed = true
+metadata/_custom_type_script = "uid://sxtmkutwqvhf"

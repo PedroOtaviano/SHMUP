@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="LootTable" load_steps=6 format=3 uid="uid://ilpw44lnd41r"]
+
+[ext_resource type="Script" uid="uid://sxtmkutwqvhf" path="res://resources/loot/drop.gd" id="1_oea52"]
+[ext_resource type="Script" uid="uid://ndm5flaope34" path="res://resources/loot/LootTable.gd" id="2_kltrh"]
+[ext_resource type="Resource" uid="uid://hlljirjvsj8y" path="res://resources/loot/ShooterDropMaterial.tres" id="2_lkue2"]
+[ext_resource type="Resource" uid="uid://c45s8q2puiq7l" path="res://resources/loot/RedCrystal.tres" id="3_qujtg"]
+[ext_resource type="Resource" uid="uid://qq1tx3ct6loy" path="res://resources/loot/ExplosiveUpgrade.tres" id="4_k5o8p"]
+
+[resource]
+script = ExtResource("2_kltrh")
+drops = Array[ExtResource("1_oea52")]([ExtResource("2_lkue2"), ExtResource("3_qujtg"), ExtResource("4_k5o8p")])
+metadata/_custom_type_script = "uid://ndm5flaope34"

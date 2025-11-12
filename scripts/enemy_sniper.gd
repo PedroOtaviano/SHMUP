@@ -92,7 +92,7 @@ func shoot():
 			collider.take_damage(damage)
 			hit_position = result.position
 
-	var impact = preload("res://scenes/laser_impact.tscn").instantiate()
+	var impact = preload("res://scenes/Effects/laser_impact.tscn").instantiate()
 	get_parent().add_child(impact)
 	impact.global_position = hit_position
 
@@ -104,5 +104,7 @@ func shoot():
 # -------------------------
 func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
-		body.take_damage(contact_damage)
+		var health_component = body.get_node_or_null("HealthComponent")
+		if health_component:
+			health_component.take_damage(contact_damage)
 		explode()   # sniper morre ao encostar

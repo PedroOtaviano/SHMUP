@@ -1,8 +1,9 @@
-[gd_scene load_steps=21 format=3 uid="uid://cr5pni4btapgp"]
+[gd_scene load_steps=22 format=3 uid="uid://cr5pni4btapgp"]
 
 [ext_resource type="Script" uid="uid://cu1g76c3cxw4c" path="res://scripts/enemy_sniper.gd" id="1_rwlyv"]
 [ext_resource type="Texture2D" uid="uid://ddfk7ledw3s5s" path="res://assets/enemies/bug_3.png" id="2_1f7p7"]
-[ext_resource type="PackedScene" uid="uid://ckew7filua1hc" path="res://scenes/damage_popup.tscn" id="2_4d8dn"]
+[ext_resource type="PackedScene" uid="uid://ckew7filua1hc" path="res://scenes/Effects/damage_popup.tscn" id="2_4d8dn"]
+[ext_resource type="Resource" uid="uid://bgv0h3x673ks7" path="res://resources/loot/SniperLoot.tres" id="2_hxud5"]
 [ext_resource type="Texture2D" uid="uid://p8ulkcs8eaje" path="res://assets/effects/explosion-spritesheet.png" id="3_1f7p7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4d8dn"]
@@ -121,11 +122,13 @@ size = Vector2(41.5, 20)
 
 [node name="Enemy_Sniper" type="Area2D"]
 script = ExtResource("1_rwlyv")
+damage = 50
+contact_damage = 30
+loot_table = ExtResource("2_hxud5")
 damage_popup_scene = ExtResource("2_4d8dn")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_78hcv")
-animation = &"explosion"
 autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

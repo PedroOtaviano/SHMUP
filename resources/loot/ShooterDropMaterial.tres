@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Drop" load_steps=3 format=3 uid="uid://hlljirjvsj8y"]
 
 [ext_resource type="Script" uid="uid://sxtmkutwqvhf" path="res://resources/loot/drop.gd" id="1_a6yib"]
-[ext_resource type="PackedScene" uid="uid://clu12nhu8e0u8" path="res://scenes/material_fragment.tscn" id="1_txcsp"]
+[ext_resource type="PackedScene" uid="uid://clu12nhu8e0u8" path="res://scenes/Loot/metal_fragment.tscn" id="1_txcsp"]
 
 [resource]
 script = ExtResource("1_a6yib")

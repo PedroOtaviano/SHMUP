@@ -8,9 +8,12 @@ radius = 4.0
 
 [node name="EnemyBullet" type="Area2D" groups=["enemy_bullet"]]
 script = ExtResource("1_gl7bs")
+damage = 20
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_7smgm")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_mgp66")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -155,7 +155,7 @@ func spawn_diagonal(enemy_name: String, count: int, start_x: float, start_y: flo
 		add_child(enemy)
 
 func spawn_boss():
-	var boss_scene = load("res://scenes/boss.tscn")
+	var boss_scene = load("res://scenes/Enemies/boss.tscn")
 	var boss = boss_scene.instantiate()
 	var viewport_size = get_viewport_rect().size
 	boss.position = Vector2(viewport_size.x / 2, -200)  # entra de cima

@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://dxaju0kk1camq"]
+
+[ext_resource type="Script" uid="uid://b5at8w8q7625g" path="res://scripts/sumk_1.gd" id="1_4npx4"]
+[ext_resource type="Texture2D" uid="uid://cqiwwnub083ir" path="res://assets/Support Units/support_units-red.png" id="2_dvm28"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i2lvr"]
+atlas = ExtResource("2_dvm28")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jy14a"]
+atlas = ExtResource("2_dvm28")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jsb1o"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i2lvr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jy14a")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="SUMK1" type="Node2D"]
+script = ExtResource("1_4npx4")
+
+[node name="ShootTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_jsb1o")
+autoplay = "default"
+frame_progress = 0.81093585
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

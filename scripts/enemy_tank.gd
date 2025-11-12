@@ -36,6 +36,8 @@ func _on_area_entered(area: Area2D) -> void:
 # Contato direto com Player
 # -------------------------
 func _on_body_entered(body: Node) -> void:
-	if body.is_in_group("player") and attack_timer <= 0 and body.has_method("take_damage"):
-		body.take_damage(damage)
+	if body.is_in_group("player") and attack_timer <= 0:
+		var health_component = body.get_node_or_null("HealthComponent")
+		if health_component:
+			health_component.take_damage(damage)
 		attack_timer = attack_cooldown

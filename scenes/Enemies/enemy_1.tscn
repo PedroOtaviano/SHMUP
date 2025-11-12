@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://cymheiidvchk1" path="res://scripts/enemy_1.gd" id="1_a1412"]
 [ext_resource type="Texture2D" uid="uid://dotk1jjaw3s4f" path="res://assets/enemies/spritesheet_enemy_1.png" id="1_tcmaw"]
-[ext_resource type="PackedScene" uid="uid://b3rsaldcja42b" path="res://scenes/enemy_bullet.tscn" id="2_ejytf"]
-[ext_resource type="PackedScene" uid="uid://ckew7filua1hc" path="res://scenes/damage_popup.tscn" id="3_dq62l"]
+[ext_resource type="PackedScene" uid="uid://b3rsaldcja42b" path="res://scenes/Enemies/enemy_bullet.tscn" id="2_ejytf"]
+[ext_resource type="PackedScene" uid="uid://ckew7filua1hc" path="res://scenes/Effects/damage_popup.tscn" id="3_dq62l"]
 [ext_resource type="Resource" uid="uid://cpm6ma5t16rpq" path="res://resources/loot/ShooterLoot.tres" id="3_l21ug"]
 [ext_resource type="Texture2D" uid="uid://p8ulkcs8eaje" path="res://assets/effects/explosion-spritesheet.png" id="5_d3026"]
 
@@ -103,6 +103,7 @@ animations = [{
 [node name="Enemy1" type="Area2D"]
 script = ExtResource("1_a1412")
 bullet_scene = ExtResource("2_ejytf")
+contact_damage = 30
 loot_table = ExtResource("3_l21ug")
 damage_popup_scene = ExtResource("3_dq62l")
 

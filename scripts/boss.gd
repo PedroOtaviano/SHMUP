@@ -3,7 +3,7 @@ extends Area2D
 @export var max_health: int = 110
 var health: int
 
-@export var bullet_scene: PackedScene = preload("res://scenes/enemy_bullet.tscn")
+@export var bullet_scene: PackedScene = preload("res://scenes/Enemies/enemy_bullet.tscn")
 
 @export var fire_rate: float = 1.0
 @export var fire_rate_circular: float = 0.5
@@ -24,6 +24,9 @@ var health: int
 # -------------------------
 @export var xp_reward: int = 50   # XP dado ao player ao derrotar o boss
 @onready var player = get_tree().get_first_node_in_group("player")
+
+# Loot
+@export var loot_table: LootTable
 
 # Damage Popup
 @export var damage_popup_scene: PackedScene
@@ -189,6 +192,14 @@ func die():
 	if player and player.has_method("add_xp"):
 		player.add_xp(xp_reward)
 		print("Player ganhou %d XP pela vitória contra o Boss!" % xp_reward)
+		
+	if loot_table:
+		var scenes = loot_table.get_loot()
+		for scene in scenes:
+			var item = scene.instantiate()
+			item.global_position = global_position
+			get_tree().current_scene.add_child(item)
+
 
 	queue_free()
 	print("Boss derrotado!")
@@ -200,5 +211,6 @@ func _on_area_entered(area):
 
 func _on_body_entered(body):
 	if body.is_in_group("player"):
-		# O player tem o método take_damage
-		body.take_damage(contact_damage)  # valor de dano que o Boss causa ao encostar
+		var health_component = body.get_node_or_null("HealthComponent")
+		if health_component:
+			health_component.take_damage(contact_damage)

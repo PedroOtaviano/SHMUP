@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Drop" load_steps=3 format=3 uid="uid://brxafpcntjruk"]
+
+[ext_resource type="PackedScene" uid="uid://cpsfd4fu4qofj" path="res://scenes/Loot/rare_crystal.tscn" id="1_pmb4f"]
+[ext_resource type="Script" uid="uid://sxtmkutwqvhf" path="res://resources/loot/drop.gd" id="1_q6u4d"]
+
+[resource]
+script = ExtResource("1_q6u4d")
+scene = ExtResource("1_pmb4f")
+chance = 0.01
+metadata/_custom_type_script = "uid://sxtmkutwqvhf"

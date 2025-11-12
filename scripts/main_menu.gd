@@ -10,7 +10,7 @@ func _process(delta):
 
 func _on_start_game_pressed():
 	# Vai direto para a cena de seleção de missão
-	get_tree().change_scene_to_file("res://scenes/mission_select.tscn")
+	get_tree().change_scene_to_file("res://scenes/Menus/mission_select.tscn")
 
 func _on_options_pressed():
 	# Placeholder: pode abrir uma cena de opções ou popup

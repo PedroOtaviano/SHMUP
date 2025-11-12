@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmajqfprvfaqa"]
+
+[ext_resource type="Script" uid="uid://dueq7kfwvxgk3" path="res://scripts/inventory_ui.gd" id="1_brv7c"]
+
+[node name="InventoryUI" type="Control"]
+process_mode = 3
+z_index = 100
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_brv7c")
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -228.0
+offset_top = -191.0
+offset_right = 228.0
+offset_bottom = 191.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+
+[node name="Materials" type="ItemList" parent="TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Upgrades" type="ItemList" parent="TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Support Units" type="ItemList" parent="TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[connection signal="item_selected" from="TabContainer/Support Units" to="." method="_on_support_units_item_selected"]

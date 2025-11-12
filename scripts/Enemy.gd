@@ -80,10 +80,10 @@ func _on_explosion_finished():
 	die()
 
 func die() -> void:
-	# XP para o player
-	var player = get_tree().get_first_node_in_group("player")
-	if player and player.has_method("add_xp"):
-		player.add_xp(xp_reward)
+	# XP para o player via grupo
+	var xpcomponent = get_tree().get_first_node_in_group("xpcomponent")
+	if xpcomponent and xpcomponent is XpComponent:
+		xpcomponent.add_xp(xp_reward)
 
 	# Loot
 	if loot_table:
