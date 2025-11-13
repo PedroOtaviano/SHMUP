@@ -1,13 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://cefgaltrisaq0"]
 
-[ext_resource type="Script" uid="uid://drt7jsb0vjjf6" path="res://scripts/material_fragment.gd" id="1_e6l7u"]
+[ext_resource type="Script" uid="uid://cvbvgnohjjujv" path="res://scripts/loot/ItemPickup.gd" id="1_e6l7u"]
 [ext_resource type="Texture2D" uid="uid://c8tbdor5hfqjs" path="res://assets/loot/PowerupRed.png" id="2_e6l7u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qqipk"]
 
 [node name="RedCrystal" type="Area2D"]
 script = ExtResource("1_e6l7u")
-item_name = "Red Crystal"
+pickup_name = "Red Crystal"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.3, 0.3)

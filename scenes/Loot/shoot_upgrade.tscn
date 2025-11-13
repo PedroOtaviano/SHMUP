@@ -1,12 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://d0ow5vf2qst6j"]
 
-[ext_resource type="Script" uid="uid://206mi7777g6y" path="res://scripts/shoot_upgrade.gd" id="1_h01u0"]
+[ext_resource type="Script" uid="uid://d0qfypg83xiih" path="res://scripts/loot/UpgradePickup.gd" id="1_h01u0"]
 [ext_resource type="Texture2D" uid="uid://cuq70xw8obsoq" path="res://assets/loot/PowerupYellow.png" id="2_h01u0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rwc2m"]
 
 [node name="ShootUpgrade" type="Area2D"]
 script = ExtResource("1_h01u0")
+pickup_name = "Shoot Upgrade"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.3, 0.3)

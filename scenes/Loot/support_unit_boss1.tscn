@@ -1,12 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://dn350mj16h3i7"]
 
-[ext_resource type="Script" uid="uid://cldhd17rh3uni" path="res://scripts/support_unit.gd" id="1_d7he6"]
+[ext_resource type="Script" uid="uid://d21fra46sjtlf" path="res://scripts/loot/SupportUnitPickup.gd" id="1_d7he6"]
 [ext_resource type="Texture2D" uid="uid://mboor8hvxffr" path="res://assets/loot/icon-special.png" id="2_d7he6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rwc2m"]
 
 [node name="SupportUnitBoss1" type="Area2D"]
 script = ExtResource("1_d7he6")
+pickup_name = "Suport Unit Boss 1"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(4.7683716e-07, -4.7683716e-07)

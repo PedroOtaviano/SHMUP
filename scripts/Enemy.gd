@@ -29,7 +29,7 @@ func _physics_process(delta):
 func move_pattern(delta: float) -> void:
 	position.y += speed * delta
 
-func attack_pattern() -> void:
+func attack_pattern(delta := 0.0) -> void:
 	pass
 
 # -------------------------

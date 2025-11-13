@@ -1,9 +1,15 @@
-[gd_scene load_steps=16 format=3 uid="uid://djwuaeo5m3yp4"]
+[gd_scene load_steps=22 format=3 uid="uid://djwuaeo5m3yp4"]
 
-[ext_resource type="Script" uid="uid://b7ccmmkd33rto" path="res://scripts/boss.gd" id="1_neq0i"]
+[ext_resource type="Script" uid="uid://b7ccmmkd33rto" path="res://scripts/enemy/boss/boss.gd" id="1_neq0i"]
 [ext_resource type="Texture2D" uid="uid://bepddkvvccd85" path="res://assets/boss/boss-01-spritesheet.png" id="2_jncid"]
+[ext_resource type="PackedScene" uid="uid://b3rsaldcja42b" path="res://scenes/Enemies/enemy_bullet.tscn" id="2_ly4mr"]
 [ext_resource type="PackedScene" uid="uid://ckew7filua1hc" path="res://scenes/Effects/damage_popup.tscn" id="2_qnbj4"]
 [ext_resource type="Resource" uid="uid://5f7wlm07hahu" path="res://resources/loot/Boss1Loot.tres" id="2_vrktt"]
+[ext_resource type="Script" uid="uid://i73u1u7vqyw0" path="res://scripts/enemy/boss/boss_attack_component.gd" id="5_fssys"]
+[ext_resource type="Script" uid="uid://b6ykitiu7pajv" path="res://scripts/enemy/boss/boss_phase_component.gd" id="5_ysxc2"]
+[ext_resource type="Script" uid="uid://yvw440irnblc" path="res://scripts/enemy/boss/boss_movement_component.gd" id="7_4fu6r"]
+[ext_resource type="Script" uid="uid://8s8iifoj0yum" path="res://scripts/enemy/boss/boss_health_bar_component.gd" id="8_oli83"]
+[ext_resource type="Script" uid="uid://dhum6cem7perd" path="res://scripts/enemy/boss/boss_loot_component.gd" id="9_ri3gw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qnbj4"]
 radius = 110.00455
@@ -87,6 +93,9 @@ color = Color(1, 0.2784314, 0.23921569, 1)
 
 [node name="Boss" type="Area2D"]
 script = ExtResource("1_neq0i")
+bullet_scene = ExtResource("2_ly4mr")
+max_health = 100
+xp_reward = 100
 loot_table = ExtResource("2_vrktt")
 damage_popup_scene = ExtResource("2_qnbj4")
 
@@ -106,6 +115,25 @@ amount = 80
 preprocess = 0.2
 explosiveness = 0.2
 process_material = SubResource("ParticleProcessMaterial_neq0i")
+
+[node name="BossPhaseComponent" type="Node" parent="."]
+script = ExtResource("5_ysxc2")
+
+[node name="BossAttackComponent" type="Node" parent="."]
+script = ExtResource("5_fssys")
+
+[node name="FanTimer" type="Timer" parent="BossAttackComponent"]
+
+[node name="CircleTimer" type="Timer" parent="BossAttackComponent"]
+
+[node name="BossMovementComponent" type="Node" parent="."]
+script = ExtResource("7_4fu6r")
+
+[node name="BossHealthBarComponent" type="Node" parent="."]
+script = ExtResource("8_oli83")
+
+[node name="BossLootComponent" type="Node" parent="."]
+script = ExtResource("9_ri3gw")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
